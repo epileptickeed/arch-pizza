@@ -1,4 +1,11 @@
-import { Container, Filters, Title, TopBar } from '@/components/shared';
+import {
+  Container,
+  Filters,
+  ProductCard,
+  Title,
+  TopBar,
+  ProductGroupList,
+} from '@/components/shared';
 
 export default function Home() {
   return (
@@ -18,8 +25,47 @@ export default function Home() {
           <div className="flex-1">
             <div className="flex flex-col gap-16">
               qwe
-              {/* <ProductsGroupList title="Пиццы" items={[1, 2, 3, 4, 5]} /> */}
-              {/* <ProductsGroupList title="Комбо" items={[1, 2, 3, 4, 5]} /> */}
+              <ProductGroupList
+                title="Пиццы"
+                items={[
+                  {
+                    id: 1,
+                    name: 'pizza',
+                    price: 500,
+                    imageUrl:
+                      'https://media.dodostatic.net/image/r:292x292/11EEFB595A197C24BA932A0AD1144AFB.avif',
+                  },
+                  {
+                    id: 1,
+                    name: 'pizza',
+                    price: 500,
+                    imageUrl:
+                      'https://media.dodostatic.net/image/r:292x292/11EEFB595A197C24BA932A0AD1144AFB.avif',
+                  },
+                  {
+                    id: 1,
+                    name: 'pizza',
+                    price: 500,
+                    imageUrl:
+                      'https://media.dodostatic.net/image/r:292x292/11EEFB595A197C24BA932A0AD1144AFB.avif',
+                  },
+                  {
+                    id: 1,
+                    name: 'pizza',
+                    price: 500,
+                    imageUrl:
+                      'https://media.dodostatic.net/image/r:292x292/11EEFB595A197C24BA932A0AD1144AFB.avif',
+                  },
+                  {
+                    id: 1,
+                    name: 'pizza',
+                    price: 500,
+                    imageUrl:
+                      'https://media.dodostatic.net/image/r:292x292/11EEFB595A197C24BA932A0AD1144AFB.avif',
+                  },
+                ]}
+                categoryId={1}
+              />
             </div>
           </div>
         </div>
