@@ -25,7 +25,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
         <p className="font-bold mb-3">Цена от и до:</p>
         <div className="flex gap-3 mb-5">
           <Input type="number" placeholder="0" min={0} max={1000} defaultValue={0} />
-          <Input type="number" placeholder="30000" min={100} value={500} max={30000} />
+          <Input type="number" placeholder="30000" min={100} max={30000} />
         </div>
 
         <RangeSlider min={0} max={5000} step={10} value={[0, 5000]} />

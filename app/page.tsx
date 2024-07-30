@@ -24,7 +24,6 @@ export default function Home() {
 
           <div className="flex-1">
             <div className="flex flex-col gap-16">
-              qwe
               <ProductGroupList
                 title="Пиццы"
                 items={[
@@ -36,28 +35,28 @@ export default function Home() {
                       'https://media.dodostatic.net/image/r:292x292/11EEFB595A197C24BA932A0AD1144AFB.avif',
                   },
                   {
-                    id: 1,
+                    id: 2,
                     name: 'pizza',
                     price: 500,
                     imageUrl:
                       'https://media.dodostatic.net/image/r:292x292/11EEFB595A197C24BA932A0AD1144AFB.avif',
                   },
                   {
-                    id: 1,
+                    id: 3,
                     name: 'pizza',
                     price: 500,
                     imageUrl:
                       'https://media.dodostatic.net/image/r:292x292/11EEFB595A197C24BA932A0AD1144AFB.avif',
                   },
                   {
-                    id: 1,
+                    id: 4,
                     name: 'pizza',
                     price: 500,
                     imageUrl:
                       'https://media.dodostatic.net/image/r:292x292/11EEFB595A197C24BA932A0AD1144AFB.avif',
                   },
                   {
-                    id: 1,
+                    id: 5,
                     name: 'pizza',
                     price: 500,
                     imageUrl:
@@ -65,6 +64,47 @@ export default function Home() {
                   },
                 ]}
                 categoryId={1}
+              />
+              <ProductGroupList
+                title="Комбо"
+                items={[
+                  {
+                    id: 1,
+                    name: 'pizza',
+                    price: 500,
+                    imageUrl:
+                      'https://media.dodostatic.net/image/r:292x292/11EEFB595A197C24BA932A0AD1144AFB.avif',
+                  },
+                  {
+                    id: 2,
+                    name: 'pizza',
+                    price: 500,
+                    imageUrl:
+                      'https://media.dodostatic.net/image/r:292x292/11EEFB595A197C24BA932A0AD1144AFB.avif',
+                  },
+                  {
+                    id: 3,
+                    name: 'pizza',
+                    price: 500,
+                    imageUrl:
+                      'https://media.dodostatic.net/image/r:292x292/11EEFB595A197C24BA932A0AD1144AFB.avif',
+                  },
+                  {
+                    id: 4,
+                    name: 'pizza',
+                    price: 500,
+                    imageUrl:
+                      'https://media.dodostatic.net/image/r:292x292/11EEFB595A197C24BA932A0AD1144AFB.avif',
+                  },
+                  {
+                    id: 5,
+                    name: 'pizza',
+                    price: 500,
+                    imageUrl:
+                      'https://media.dodostatic.net/image/r:292x292/11EEFB595A197C24BA932A0AD1144AFB.avif',
+                  },
+                ]}
+                categoryId={2}
               />
             </div>
           </div>
