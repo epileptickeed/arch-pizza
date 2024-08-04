@@ -1,10 +1,11 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
-import { Title } from './title';
-import { Button } from '../ui';
-import { Plus } from 'lucide-react';
-import { Ingredients } from '@prisma/client';
+/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import { Title } from "./title";
+import { Button } from "../ui";
+import { Plus } from "lucide-react";
+import { Ingredients } from "@prisma/client";
 
 interface Props {
   className?: string;
@@ -32,14 +33,16 @@ export const ProductCard: React.FC<Props> = ({
 
         <Title text={name} size="sm" className="mb-1 mt-3 font-bold" />
 
-        <p className="text-sm text-gray-400">{ingredients.map((item) => item.name).join(',')}</p>
+        <p className="text-sm text-gray-400">
+          {ingredients.map((item) => item.name).join(",")}
+        </p>
 
         <div className="flex justify-between items-center mt-4">
           <span className="text-[20px]">
             от <b>{price} P</b>
           </span>
 
-          <Button variant={'secondary'}>
+          <Button variant={"secondary"}>
             <Plus size={20} className="mr-1" />
             Добавить
           </Button>
