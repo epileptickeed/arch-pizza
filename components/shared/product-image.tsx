@@ -5,10 +5,10 @@ import React from "react";
 interface Props {
   className?: string;
   imageUrl: string;
-  size: number;
+  size: 20 | 30 | 40;
 }
 
-export const Productimage: React.FC<Props> = ({
+export const ProductImage: React.FC<Props> = ({
   className,
   imageUrl,
   size,
