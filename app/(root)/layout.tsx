@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import "../globals.css";
-import { Header } from "@/components/shared/Header";
+import type { Metadata } from 'next';
+import '../globals.css';
+import { Header } from '@/shared/components/shared/Header';
 
 export const metadata: Metadata = {
-  title: "Next Pizza | Главная",
+  title: 'Next Pizza | Главная',
 };
 
 export default function HomeLayout({
