@@ -10,7 +10,7 @@ interface Props {
   value?: Variant['value'];
 }
 
-interface Variant {
+export interface Variant {
   name: string;
   value: string;
   disabled?: boolean;

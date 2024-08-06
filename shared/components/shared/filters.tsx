@@ -12,17 +12,6 @@ interface Props {
   className?: string;
 }
 
-interface PriceRangeProps {
-  priceFrom?: number;
-  priceTo?: number;
-}
-
-interface QueryFilters extends PriceRangeProps {
-  sizes: string;
-  pizzaTypes: string;
-  ingredients: string;
-}
-
 export const Filters: React.FC<Props> = ({ className }) => {
   const router = useRouter();
 
