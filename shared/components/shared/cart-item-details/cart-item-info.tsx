@@ -6,29 +6,9 @@ interface Props {
   name: string;
   details: string;
   className?: string;
-  type?: PizzaType;
-  pizzaSize?: PizzaSize;
-  ingredients?: Ingredients[];
 }
 
-export const CartItemInfo: React.FC<Props> = ({
-  name,
-  pizzaSize,
-  type,
-  ingredients,
-  className,
-}) => {
-  const details: any[] = [];
-
-  if (pizzaSize && type) {
-    const typeName = mapPizzaType[type];
-    details.push(`${typeName} ${pizzaSize} см`);
-  }
-
-  if (ingredients) {
-    details.push(...ingredients.map((item) => item.name));
-  }
-
+export const CartItemInfo: React.FC<Props> = ({ name, details, className }) => {
   return (
     <div>
       <div className={cn('flex items-center justify-between', className)}>

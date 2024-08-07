@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Sheet,
   SheetContent,
@@ -10,12 +12,28 @@ import {
 import Link from 'next/link';
 import { Button } from '../ui';
 import { ArrowRight } from 'lucide-react';
+import { CartDrawerItem } from './cart-drawer-item';
+import { CartItemGetCartItemsDetails } from '@/shared/lib/cart-item-get-cart-items-details';
+import React from 'react';
+import { useCartStore } from '@/shared/store';
+import { objectEnumNames } from '@prisma/client/runtime/library';
+import { PizzaSize, PizzaType } from '@/shared/constants/pizza';
 
 interface Props {
   className?: string;
 }
 
 export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children, className }) => {
+  const { totalAmount, fetchCartItems, items } = useCartStore((state) => [
+    state.totalAmount,
+    state.fetchCartItems,
+    state.items,
+  ]);
+
+  React.useEffect(() => {
+    fetchCartItems();
+  }, []);
+
   return (
     <div className={className}>
       <Sheet>
@@ -26,6 +44,29 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
               В корзине <span className="font-bold">3 товара</span>
             </SheetTitle>
           </SheetHeader>
+
+          <div className="-mx-6 mt-5 overflow-auto scrollbar flex-1">
+            <div className="mb-2">
+              {items.map((item) => (
+                <CartDrawerItem
+                  id={item.id}
+                  imageUrl={item.imageUrl}
+                  details={
+                    item.pizzaType && item.pizzaSize
+                      ? CartItemGetCartItemsDetails(
+                          item.pizzaType as PizzaType,
+                          item.pizzaSize as PizzaSize,
+                          item.ingredients,
+                        )
+                      : ''
+                  }
+                  name={item.name}
+                  price={item.price}
+                  quantity={item.quantity}
+                />
+              ))}
+            </div>
+          </div>
 
           <SheetFooter className="-mx-6 bgh-white p-8">
             <div className="w-full">
