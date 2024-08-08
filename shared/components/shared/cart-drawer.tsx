@@ -22,15 +22,24 @@ interface Props {
 }
 
 export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children, className }) => {
-  const { totalAmount, fetchCartItems, items } = useCartStore((state) => ({
-    totalAmount: state.totalAmount,
-    fetchCartItems: state.fetchCartItems,
-    items: state.items,
-  }));
+  const { totalAmount, fetchCartItems, items, updateItemQuantity, removeCartItem } = useCartStore(
+    (state) => ({
+      totalAmount: state.totalAmount,
+      items: state.items,
+      fetchCartItems: state.fetchCartItems,
+      updateItemQuantity: state.updateItemQuantity,
+      removeCartItem: state.removeCartItem,
+    }),
+  );
 
   React.useEffect(() => {
     fetchCartItems();
   }, []);
+
+  const onClickCountButton = (id: number, quantity: number, type: 'plus' | 'minus') => {
+    const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
+    updateItemQuantity(id, newQuantity);
+  };
 
   return (
     <div className={className}>
@@ -39,7 +48,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
         <SheetContent className="flex flex-col justify-between pb-0 bg-[#f4f1ee]">
           <SheetHeader>
             <SheetTitle>
-              В корзине <span className="font-bold">3 товара</span>
+              В корзине <span className="font-bold">{items.length} товара</span>
             </SheetTitle>
           </SheetHeader>
 
@@ -62,6 +71,8 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
                   name={item.name}
                   price={item.price}
                   quantity={item.quantity}
+                  onClickCountButton={(type) => onClickCountButton(item.id, item.quantity, type)}
+                  onClickRemove={() => removeCartItem(item.id)}
                 />
               ))}
             </div>
@@ -75,7 +86,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
                   <div className="flex-1 border-b border-dashed border-b-neutral-200 relative -top-1 mx-2" />
                 </span>
 
-                <span className="font-bold text-lg"> 500 P</span>
+                <span className="font-bold text-lg">{totalAmount}p</span>
               </div>
 
               <Link href="/cart">
