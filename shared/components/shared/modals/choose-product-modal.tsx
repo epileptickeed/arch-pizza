@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { ChooseProductForm } from '../choose-product-form';
 import { ProductWithRelations } from '@/app/@types/prisma';
 import { ChoosePizzaForm } from '../choose-pizza-form';
+import { Description, DialogTitle } from '@radix-ui/react-dialog';
 
 interface Props {
   className?: string;
@@ -27,7 +28,12 @@ export const ChooseProductModal: React.FC<Props> = ({ product, className }) => {
           'p-0 w-[1060px] max-w-[1060px] min-h-[500px] bg-white overflow-hidden',
           className,
         )}
+        aria-describedby="none"
       >
+        {/* to silence the errors */}
+        <Description className="hidden" />
+        <DialogTitle className="hidden" />
+        {/* */}
         {isPizzaForm ? (
           <ChoosePizzaForm
             imageUrl={product.imageUrl}

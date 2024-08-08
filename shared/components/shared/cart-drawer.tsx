@@ -3,7 +3,6 @@
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -12,23 +11,22 @@ import {
 import Link from 'next/link';
 import { Button } from '../ui';
 import { ArrowRight } from 'lucide-react';
-import { CartDrawerItem } from './cart-drawer-item';
-import { CartItemGetCartItemsDetails } from '@/shared/lib/cart-item-get-cart-items-details';
 import React from 'react';
-import { useCartStore } from '@/shared/store';
-import { objectEnumNames } from '@prisma/client/runtime/library';
 import { PizzaSize, PizzaType } from '@/shared/constants/pizza';
+import { useCartStore } from '@/shared/store/cart';
+import { CartDrawerItem } from './cart-drawer-item';
+import { getCartItemDetails } from '@/shared/lib';
 
 interface Props {
   className?: string;
 }
 
 export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children, className }) => {
-  const { totalAmount, fetchCartItems, items } = useCartStore((state) => [
-    state.totalAmount,
-    state.fetchCartItems,
-    state.items,
-  ]);
+  const { totalAmount, fetchCartItems, items } = useCartStore((state) => ({
+    totalAmount: state.totalAmount,
+    fetchCartItems: state.fetchCartItems,
+    items: state.items,
+  }));
 
   React.useEffect(() => {
     fetchCartItems();
@@ -49,14 +47,15 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
             <div className="mb-2">
               {items.map((item) => (
                 <CartDrawerItem
+                  key={item.id}
                   id={item.id}
                   imageUrl={item.imageUrl}
                   details={
                     item.pizzaType && item.pizzaSize
-                      ? CartItemGetCartItemsDetails(
+                      ? getCartItemDetails(
+                          item.ingredients,
                           item.pizzaType as PizzaType,
                           item.pizzaSize as PizzaSize,
-                          item.ingredients,
                         )
                       : ''
                   }
