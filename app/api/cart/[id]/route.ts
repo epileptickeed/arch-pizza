@@ -49,7 +49,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
       return NextResponse.json({ message: 'Cart token not found' });
     }
 
-    const cartItem = prisma.cartItem.findFirst({
+    const cartItem = await prisma.cartItem.findFirst({
       where: {
         id: Number(params.id),
       },
@@ -69,7 +69,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 
     return NextResponse.json(updatedUserCart);
   } catch (error) {
-    console.log('[CART_PATCH] Server error', error);
+    console.log('[CART_DELETE] Server error', error);
     return NextResponse.json({ message: 'Не удалось обновить корзину' }, { status: 500 });
   }
 }
