@@ -1,14 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
-import { cn } from '@/shared/lib/utils';
-import React from 'react';
-import { ProductImage } from './product-image';
-import { Title } from './title';
-import { Button } from '../ui';
-import { GroupVariants } from './group-variants';
-import { PizzaSize, PizzaType, pizzaTypes } from '@/shared/constants/pizza';
-import { Ingredients, ProductItem } from '@prisma/client';
-import { Ingredient } from './ingredients';
-import { getPizzaDetails, usePizzaOptions } from '@/shared/lib';
+import { cn } from "@/shared/lib/utils";
+import React from "react";
+import { ProductImage } from "./product-image";
+import { Title } from "./title";
+import { Button } from "../ui";
+import { GroupVariants } from "./group-variants";
+import { PizzaSize, PizzaType, pizzaTypes } from "@/shared/constants/pizza";
+import { Ingredients, ProductItem } from "@prisma/client";
+import { Ingredient } from "./ingredients";
+import { getPizzaDetails, usePizzaOptions } from "@/shared/lib";
 
 interface Props {
   className?: string;
@@ -16,39 +16,52 @@ interface Props {
   name: string;
   ingredients: Ingredients[];
   items: ProductItem[];
-  onClickAdd?: VoidFunction;
+  onSubmit: (itemId: number, ingredients: number[]) => void;
+  loading?: boolean;
 }
+
+/**
+ * Форма пиццы
+ * @param param0
+ * @returns
+ */
 
 export const ChoosePizzaForm: React.FC<Props> = ({
   imageUrl,
   name,
   ingredients,
-  onClickAdd,
+  onSubmit,
   items,
+  loading,
   className,
 }) => {
-  const { type, size, selectedIngredients, availableSizes, setSize, setType, addIngredient } =
-    usePizzaOptions(items);
+  const {
+    type,
+    size,
+    selectedIngredients,
+    availableSizes,
+    currentItemId,
+    setSize,
+    setType,
+    addIngredient,
+  } = usePizzaOptions(items);
 
   const { totalPrice, textDetails } = getPizzaDetails(
     items,
     type,
     size,
     ingredients,
-    selectedIngredients,
+    selectedIngredients
   );
 
   function handleAddClick() {
-    onClickAdd?.();
-    console.log({
-      size,
-      type,
-      selectedIngredients,
-    });
+    if (currentItemId) {
+      onSubmit(currentItemId, Array.from(selectedIngredients));
+    }
   }
 
   return (
-    <div className={cn(className, 'flex flex-1')}>
+    <div className={cn(className, "flex flex-1")}>
       <ProductImage imageUrl={imageUrl} size={size} />
       <div className="w-[490px] bg-[#f7f6f5] p-7">
         <Title text={name} size="md" className="font-extrabold mb-1" />
@@ -82,6 +95,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({
         </div>
 
         <Button
+          loading={loading}
           onClick={handleAddClick}
           className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
         >

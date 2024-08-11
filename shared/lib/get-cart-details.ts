@@ -1,5 +1,5 @@
-import { CartDTO } from '../services/dto/cart.dto';
-import { calcCartItemPrice } from './calc-cart-item-price';
+import { CartDTO } from "../services/dto/cart.dto";
+import { calcCartItemPrice } from "./calc-cart-item-price";
 
 export type CartStateItem = {
   id: number;
