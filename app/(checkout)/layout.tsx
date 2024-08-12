@@ -1,4 +1,4 @@
-import { Header } from '@/shared/components/shared';
+import { Container, Header } from '@/shared/components/shared';
 
 export const metadata = {
   title: 'NextJS',
@@ -8,8 +8,10 @@ export const metadata = {
 export default function CheckoutLayout({ children }: { children: React.ReactNode }) {
   return (
     <main className="min-h-screen bg-[#f4f1ee]">
-      <Header hasSearch={false} className="border-gray-200" />
-      {children}
+      <Container>
+        <Header hasSearch={false} hasCart={false} className="border-gray-200" />
+        {children}
+      </Container>
     </main>
   );
 }

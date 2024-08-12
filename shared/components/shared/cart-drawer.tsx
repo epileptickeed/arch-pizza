@@ -15,36 +15,25 @@ import { Button } from '../ui';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import React from 'react';
 import { PizzaSize, PizzaType } from '@/shared/constants/pizza';
-import { useCartStore } from '@/shared/store/cart';
 import { CartDrawerItem } from './cart-drawer-item';
 import { getCartItemDetails } from '@/shared/lib';
 import Image from 'next/image';
 import { Title } from './title';
 import { cn } from '@/shared/lib/utils';
+import { useCart } from '@/shared/hooks';
 
 interface Props {
   className?: string;
 }
 
 export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children, className }) => {
-  const { totalAmount, fetchCartItems, items, updateItemQuantity, removeCartItem } = useCartStore(
-    (state) => ({
-      totalAmount: state.totalAmount,
-      items: state.items,
-      fetchCartItems: state.fetchCartItems,
-      updateItemQuantity: state.updateItemQuantity,
-      removeCartItem: state.removeCartItem,
-    }),
-  );
-
-  React.useEffect(() => {
-    fetchCartItems();
-  }, []);
+  const { totalAmount, items, updateItemQuantity, removeCartItem } = useCart();
 
   const onClickCountButton = (id: number, quantity: number, type: 'plus' | 'minus') => {
     const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
     updateItemQuantity(id, newQuantity);
   };
+  const [redirecting, setRedirection] = React.useState(false);
 
   return (
     <div className={className}>
@@ -122,8 +111,13 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
                       <span className="font-bold text-lg">{totalAmount}p</span>
                     </div>
 
-                    <Link href="/cart">
-                      <Button type="submit" className="w-full h-12 text-base">
+                    <Link href="/checkout">
+                      <Button
+                        onClick={() => setRedirection(true)}
+                        loading={redirecting}
+                        type="submit"
+                        className="w-full h-12 text-base"
+                      >
                         Оформить заказ
                         <ArrowRight className="w-5 ml-2" />
                       </Button>

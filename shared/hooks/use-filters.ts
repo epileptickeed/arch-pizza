@@ -1,7 +1,6 @@
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useSet } from 'react-use';
 import React from 'react';
-import { useIngredients } from './use-ingredients';
 
 interface PriceRangeProps {
   priceFrom?: number;
@@ -29,7 +28,6 @@ interface ReturnProps extends Filter {
 }
 
 export const useFilters = () => {
-  const router = useRouter();
   const searchParams = useSearchParams() as unknown as Map<keyof QueryFilters, string>;
 
   /* Фильтр ингредиентов */
