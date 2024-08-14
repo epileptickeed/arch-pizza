@@ -12,9 +12,14 @@ import { useCart } from '@/shared/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { checkoutFormSchema, TCheckoutFormValues } from '@/shared/constants';
+import { cn } from '@/shared/lib/utils';
+import { CreateOrder } from '@/app/action';
+import toast from 'react-hot-toast';
+import React from 'react';
 
 export default function Page() {
-  const { totalAmount, items, updateItemQuantity, removeCartItem } = useCart();
+  const { totalAmount, items, updateItemQuantity, removeCartItem, loading } = useCart();
+  const [submitting, setSubmitting] = React.useState(false);
 
   const onClickCountButton = (id: number, quantity: number, type: 'plus' | 'minus') => {
     const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
@@ -33,8 +38,19 @@ export default function Page() {
     },
   });
 
-  const onSubmit: SubmitHandler<TCheckoutFormValues> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<TCheckoutFormValues> = async (data: TCheckoutFormValues) => {
+    try {
+      const url = await CreateOrder(data);
+      setSubmitting(true);
+      toast.success('Заказ успешно оформлен');
+      if (url) {
+        location.href = url;
+      }
+    } catch (error) {
+      toast.error('Не удалось создать заказ');
+      setSubmitting(false);
+      console.error(error);
+    }
   };
 
   return (
@@ -49,14 +65,15 @@ export default function Page() {
                 onClickCountButton={onClickCountButton}
                 removeCartItem={removeCartItem}
                 items={items}
+                loading={loading}
               />
 
-              <CheckoutPersonalForm />
+              <CheckoutPersonalForm className={loading ? 'opacity-40 pointer-events-none' : ''} />
 
-              <CheckoutAddressForm />
+              <CheckoutAddressForm className={loading ? 'opacity-40 pointer-events-none' : ''} />
             </div>
             <div className="w-[450px]">
-              <CheckoutSidebar totalAmount={totalAmount} />
+              <CheckoutSidebar totalAmount={totalAmount} loading={loading || submitting} />
             </div>
           </div>
         </form>
