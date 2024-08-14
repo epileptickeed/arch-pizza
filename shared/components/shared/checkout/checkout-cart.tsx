@@ -41,17 +41,6 @@ export const CheckoutCart: React.FC<Props> = ({
               onClickRemove={() => removeCartItem(item.id)}
             />
           ))}
-
-          <CheckoutItem
-            id={1}
-            imageUrl={
-              'https://media.dodostatic.net/image/r:233x233/11EE7D610CF7E265B7C72BE5AE757CA7.webp'
-            }
-            details={''}
-            name={'Сырная'}
-            price={216}
-            quantity={3}
-          />
         </div>
       </WhiteBlock>
     </div>
