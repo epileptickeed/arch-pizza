@@ -1,7 +1,9 @@
 'use server';
 
 import { prisma } from '@/prisma/prisma-client';
+import { PayOrderTemplate } from '@/shared/components/shared/email-templates/pay-order';
 import { TCheckoutFormValues } from '@/shared/constants';
+import { createPayment, sendEmail } from '@/shared/lib';
 import { OrderStatus } from '@prisma/client';
 import { cookies } from 'next/headers';
 
@@ -45,7 +47,7 @@ export async function CreateOrder(data: TCheckoutFormValues) {
     const order = await prisma.order.create({
       data: {
         token: cartToken,
-        totalAmount: 1500,
+        totalAmount: userCart.totalAmount,
         status: OrderStatus.PENDING,
         items: JSON.stringify(userCart.cartItem),
         fullName: data.firstName + ' ' + data.lastName,
@@ -55,7 +57,7 @@ export async function CreateOrder(data: TCheckoutFormValues) {
         comment: data.comment,
       },
     });
-
+    /**обновляем корзину */
     await prisma.cart.update({
       where: {
         id: userCart.id,
@@ -65,12 +67,46 @@ export async function CreateOrder(data: TCheckoutFormValues) {
       },
     });
 
-    await prisma.cartItem.findMany({
+    /*Удаляем корзину */
+    await prisma.cartItem.deleteMany({
       where: {
         cartId: userCart.id,
       },
     });
+
+    const paymentData = await createPayment({
+      amount: order.totalAmount,
+      orderId: order.id,
+      description: `Оплата заказа №${order.id}`,
+    });
+
+    if (!paymentData) {
+      throw new Error('Заказ не найден');
+    }
+
+    await prisma.order.update({
+      where: {
+        id: order.id,
+      },
+      data: {
+        paymentId: paymentData.id,
+      },
+    });
+
+    const paymentUrl = paymentData.confirmation.confirmation_url;
+
+    sendEmail(
+      data.email,
+      `next pizza / оплатите заказ № ${order.id}`,
+      PayOrderTemplate({
+        orderId: order.id,
+        totalAmount: order.totalAmount,
+        paymentUrl,
+      }),
+    );
+
+    return paymentUrl;
   } catch (error) {
-    console.error(error);
+    console.error(`[Create order] Server error ${error}`);
   }
 }
